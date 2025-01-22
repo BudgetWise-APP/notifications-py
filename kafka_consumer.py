@@ -22,11 +22,12 @@ async def consume_messages():
                     notification = NotificationModel(**data)
                     subject = "New crypto coin added!"
                     body = (
-                        f"Hello,\n\nA new record with {notification.message} has been created."
+                        f"Hello! A new record with {notification.message} has been created."
                     )
                     print(data)
                     print(subject)
                     print(body)
+                    print(f"Sending email to {notification.user_email} with subject: {subject}")
                     await send_email(notification.user_email, subject, body)
                     print(f"Notification sent to {notification.user_email}")
                 except Exception as e:
