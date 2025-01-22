@@ -24,6 +24,9 @@ async def consume_messages():
                     body = (
                         f"Hello,\n\nA new record with {notification.message} has been created."
                     )
+                    print(data)
+                    print(subject)
+                    print(body)
                     await send_email(notification.user_email, subject, body)
                     print(f"Notification sent to {notification.user_email}")
                 except Exception as e:
