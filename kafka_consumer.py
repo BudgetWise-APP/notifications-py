@@ -6,26 +6,31 @@ import json
 
 
 async def consume_messages():
-    consumer = AIOKafkaConsumer(
-        KAFKA_TOPIC,
-        bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
-        group_id="notifications_service",
-    )
-
-    await consumer.start()
     try:
-        print("Kafka Consumer started. Listening for messages...")
-        async for msg in consumer:
-            print(f"Raw Kafka message: {msg.value}")
-            data = json.loads(msg.value)
-            print(f"Parsed Kafka message: {data}")
-            notification = NotificationModel(**data)
+        consumer = AIOKafkaConsumer(
+            KAFKA_TOPIC,
+            bootstrap_servers=KAFKA_BOOTSTRAP_SERVERS,
+            group_id="notifications_service",
+        )
 
-            subject = "New crypto coin added!"
-            body = (
-                f"Hello,\n\nA new record with {notification.message} has been created."
-            )
-            await send_email(notification.user_email, subject, body)
-            print(f"Notification sent to {notification.user_email}")
-    finally:
-        await consumer.stop()
+        await consumer.start()
+        print("Kafka Consumer started. Listening for messages...")
+        print('Consumer: {consumer}')
+        try:
+            async for msg in consumer:
+                try:
+                    print(f"Raw Kafka message: {msg.value}")
+                    data = json.loads(msg.value)
+                    notification = NotificationModel(**data)
+                    subject = "New crypto coin added!"
+                    body = (
+                        f"Hello,\n\nA new record with {notification.message} has been created."
+                    )
+                    await send_email(notification.user_email, subject, body)
+                    print(f"Notification sent to {notification.user_email}")
+                except Exception as e:
+                    print(f"Error processing message: {e}")
+        finally:
+            await consumer.stop()
+    except Exception as e:
+        print(f"Error consuming messages: {e}")
