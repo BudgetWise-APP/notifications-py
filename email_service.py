@@ -10,6 +10,11 @@ async def send_email(to_email: str, subject: str, body: str):
     msg["Subject"] = subject
     msg.set_content(body)
 
+    print(f"SMTP_HOST: {SMTP_HOST}")
+    print(f"SMTP_PORT: {SMTP_PORT}")
+    print(f"SMTP_USER: {SMTP_USER}")
+    print(f"EMAIL_FROM: {EMAIL_FROM}")
+
     await send(
         msg,
         hostname=SMTP_HOST,
@@ -18,5 +23,4 @@ async def send_email(to_email: str, subject: str, body: str):
         password=SMTP_PASSWORD,
         use_tls=False,
         start_tls=True,
-        validate_certs=False,
     )
