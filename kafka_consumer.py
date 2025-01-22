@@ -15,11 +15,9 @@ async def consume_messages():
 
         await consumer.start()
         print("Kafka Consumer started. Listening for messages...")
-        print('Consumer: {consumer}')
         try:
             async for msg in consumer:
                 try:
-                    print(f"Raw Kafka message: {msg.value}")
                     data = json.loads(msg.value)
                     notification = NotificationModel(**data)
                     subject = "New crypto coin added!"

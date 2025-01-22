@@ -9,4 +9,4 @@ SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER")
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
-EMAIL_FROM = os.getenv("EMAIL_FROM", "budgetwise@example.com")
+EMAIL_FROM = os.getenv("EMAIL_FROM", "goooneoooogle@gmail.com")

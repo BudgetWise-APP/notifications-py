@@ -18,4 +18,5 @@ async def send_email(to_email: str, subject: str, body: str):
         password=SMTP_PASSWORD,
         use_tls=False,
         start_tls=True,
+        validate_certs=False,
     )
